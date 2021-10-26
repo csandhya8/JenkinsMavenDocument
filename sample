@@ -1,0 +1,14 @@
+stage('Create Docker images') {
+      container('docker') {
+	  docker.withRegistry('https://digitalcommoncicd.azurecr.io', '8ac81092-6e02-4c1a-b732-6607c1c95133'){
+          sh '''
+            cd $WORKSPACE/fsp-authorization
+            docker build -t olamdirect_authorization_dev:$BUILD_ID .
+            docker images
+			docker tag olamdirect_authorization_dev:$BUILD_ID digitalcommoncicd.azurecr.io/olam-direct/olamdirect_authorization_dev:$BUILD_ID
+            docker push digitalcommoncicd.azurecr.io/olam-direct/olamdirect_authorization_dev:$BUILD_ID
+            
+            '''
+        }
+		}
+   }
